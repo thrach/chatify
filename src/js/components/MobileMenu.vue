@@ -1,0 +1,67 @@
+<template>
+<div class="menu-mobile menu-activated-on-click color-scheme-dark">
+    <div class="mm-logo-buttons-w">
+        <a class="mm-logo" href="javascript:void(0)" @click.prevent="$router.replace('home')">
+            <img src="img/logo.png">
+            <span>Chatify</span>
+        </a>
+        <div class="mm-buttons">
+            <div class="content-panel-open">
+                <div class="os-icon os-icon-grid-circles"></div>
+            </div>
+            <div class="mobile-menu-trigger">
+                <div class="os-icon os-icon-hamburger-menu-1"></div>
+            </div>
+        </div>
+    </div>
+    <div class="menu-and-user">
+        <div class="logged-user-w" @click.prevent="$router.replace('profile')">
+            <div class="avatar-w">
+                <img alt="" src="img/avatar1.jpg">
+            </div>
+            <div class="logged-user-info-w">
+                <div class="logged-user-name">
+                Maria Gomez
+                </div>
+            </div>
+        </div>
+        <ul class="main-menu">
+            <li class="has-sub-menu">
+                <a href="index.html">
+                <div class="icon-w">
+                    <div class="os-icon os-icon-layout"></div>
+                </div>
+                <span>Dashboard</span></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="index.html">Dashboard 1</a>
+                    </li>
+                    <li>
+                        <a href="apps_crypto.html">Crypto Dashboard <strong class="badge badge-danger">Hot</strong></a>
+                    </li>
+                    <li>
+                        <a href="apps_support_dashboard.html">Dashboard 3</a>
+                    </li>
+                    <li>
+                        <a href="apps_projects.html">Dashboard 4</a>
+                    </li>
+                    <li>
+                        <a href="apps_bank.html">Dashboard 5</a>
+                    </li>
+                    <li>
+                        <a href="layouts_menu_top_image.html">Dashboard 6</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</template>
+
+<script>
+    import globalMixin from '../mixins/global';
+
+    export default {
+        mixins: [globalMixin]
+    }
+</script>
