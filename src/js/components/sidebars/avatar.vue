@@ -1,6 +1,6 @@
 <template>
     <div class="logged-user-w avatar-inline">
-        <div class="logged-user-i">
+        <div class="logged-user-i" v-if="user !== null">
             <div class="avatar-w">
                 <img alt="" :src="user.avatar">
             </div>

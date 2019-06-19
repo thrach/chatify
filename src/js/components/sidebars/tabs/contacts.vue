@@ -122,74 +122,65 @@
                     confirmButtonText:'Yes!',
                     cancelButtonText: 'No',
                 }).then((result) => {
-                    if (result.value) {
-                        let contacts = this.user.contacts;
+                    if (result.value)
                         firestore.collection('users')
                         .doc(userUid)
                         .get()
                         .then(snapshot => {
-                            contacts.push({
-                                uid:  snapshot.id,
-                                name:  snapshot.data().name,
-                                avatar:  snapshot.data().avatar,
-                            });
+                            this.addToContactsList(snapshot.id);
 
-                            firestore.collection('users')
-                            .doc(auth.currentUser.uid)
-                            .update({contacts: contacts})
-                            .then(success => {
-                                // this.$root.showSuccessNotification('Your profile settings were updated successfully');
-                                this.$swal(
-                                    'Added!',
-                                    'Contact successfully added to your contact list',
-                                    'success'
-                                )
-                            }).catch(error => {
-                                this.$root.showErrorNotification(error.message);
-                            });
-
-                            let newUsersContacts = snapshot.data().contacts;
-                            newUsersContacts.push({
-                                uid: auth.currentUser.uid,
-                                name: this.user.name,
-                                avatar: this.user.avatar
-                            });
-
-                            firestore.collection('users')
-                            .doc(snapshot.id)
-                            .update({contacts: newUsersContacts})
-
+                            this.addCurrentContactToAddedContactList(snapshot.id, snapshot.data().contacts);
                         }, function (errorObject) {
                             console.log("The read failed: " + errorObject.code);
                         });
-                    }
                 });
             },
 
-            chatWithContact(contact) {
-                let chats = this.user.chats || [];
-                chats.push({
-                    chatId: `${auth.currentUser.uid}-${contact.uid}`
-                });
+            addToContactsList(uid) {
+                let contacts = this.user.contacts;
+                contacts.push({uid});
 
                 firestore.collection('users')
                     .doc(auth.currentUser.uid)
-                    .update({chats});
-
-                let newUserChats = contact.chats || [];
-
-                newUserChats.push({
-                    chatId: `${contact.uid}-${auth.currentUser.uid}`
+                    .update({contacts: contacts})
+                    .then(success => {
+                        this.$swal(
+                            'Added!',
+                            'Contact successfully added to your contact list',
+                            'success'
+                        )
+                    }).catch(error => {
+                    this.$root.showErrorNotification(error.message);
                 });
-                firestore.collection('users')
-                    .doc(contact.uid)
-                    .update({chats: newUserChats})
-            }
-        },
+            },
 
-        watch: {
-            documents (newDocuments) {
-                console.debug(newDocuments, 'new documents');
+            addCurrentContactToAddedContactList(contactUid, contacts) {
+                contacts.push({uid: auth.currentUser.uid});
+
+                firestore.collection('users')
+                    .doc(contactUid)
+                    .update({contacts})
+            },
+
+            chatWithContact(contact) {
+                // let chats = this.user.chats || [];
+                // chats.push({
+                //     chatId: `${auth.currentUser.uid}-${contact.uid}`
+                // });
+                //
+                // firestore.collection('users')
+                //     .doc(auth.currentUser.uid)
+                //     .update({chats});
+                //
+                // let newUserChats = contact.chats || [];
+                //
+                // newUserChats.push({
+                //     chatId: `${contact.uid}-${auth.currentUser.uid}`
+                // });
+                //
+                // firestore.collection('users')
+                //     .doc(contact.uid)
+                //     .update({chats: newUserChats})
             }
         }
     }

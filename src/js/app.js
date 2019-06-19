@@ -46,7 +46,9 @@ auth.onAuthStateChanged(() => {
 
             mounted() {
                 this.updateShowTemplateMenu();
-                this.bindUser();
+                if (auth.currentUser) {
+                    this.bindUser();
+                }
             },
 
             methods: {

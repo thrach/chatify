@@ -64,6 +64,7 @@
 <script scoped>
     import { auth, firestore } from '../../services/firebase';
     import loginRegisterMixin from '../../mixins/login-register';
+    import { mapActions } from 'vuex';
 
     export default {
         mixins: [loginRegisterMixin],
@@ -87,6 +88,8 @@
         },
 
         methods: {
+            ...mapActions('global', ['bindUser']),
+
             register() {
                 auth.createUserWithEmailAndPassword(this.email, this.password)
                     .then(response => {
@@ -98,6 +101,7 @@
                             contacts: [],
                             chats: []
                         }).then(response => {
+                            this.bindUser();
                             this.$router.push('home');
                         }).catch(error => {
                             console.debug(error);

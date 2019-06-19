@@ -1,6 +1,6 @@
 <template>
     <div class="full-chat-right">
-        <div class="user-intro">
+        <div class="user-intro" v-if="user !== null">
             <div class="avatar">
                 <img alt="" :src="user.avatar">
             </div>
@@ -57,6 +57,7 @@
 
 <script scoped>
     import { mapGetters } from 'vuex';
+
     export default {
         computed: {
             ...mapGetters('global', ['user']),

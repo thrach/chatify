@@ -51,6 +51,7 @@
 <script scoped>
     import { auth } from '../../services/firebase';
     import loginRegisterMixin from '../../mixins/login-register';
+    import { mapActions } from 'vuex';
 
     export default {
         mixins: [loginRegisterMixin],
@@ -68,16 +69,15 @@
             }
         },
 
-        mounted() {
-
-        },
-
         methods: {
+            ...mapActions('global', ['bindUser']),
+
             signIn() {
                 this.clearErrors();
 
                 auth.signInWithEmailAndPassword(this.email, this.password)
                     .then(user => {
+                        this.bindUser();
                         this.$router.replace('home');
                     }).catch(error => {
                         console.debug(error);
